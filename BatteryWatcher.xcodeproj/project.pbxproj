@@ -14,6 +14,10 @@
 		565BCF371655A03300F33517 /* BatteryWatcher.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 565BCF1D1655A03200F33517 /* BatteryWatcher.dylib */; };
 		565BCF3D1655A03300F33517 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 565BCF3B1655A03300F33517 /* InfoPlist.strings */; };
 		565BCF401655A03300F33517 /* BatteryWatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 565BCF3F1655A03300F33517 /* BatteryWatcherTests.m */; };
+		565BCF4B1655A05100F33517 /* PowerObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 565BCF491655A05100F33517 /* PowerObserver.h */; };
+		565BCF4C1655A05100F33517 /* PowerObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 565BCF4A1655A05100F33517 /* PowerObserver.m */; };
+		565BCF4E1655A07800F33517 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 565BCF4D1655A07800F33517 /* IOKit.framework */; };
+		565BCF531655A0E200F33517 /* JavaVM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 565BCF511655A0D600F33517 /* JavaVM.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +45,10 @@
 		565BCF3C1655A03300F33517 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		565BCF3E1655A03300F33517 /* BatteryWatcherTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BatteryWatcherTests.h; sourceTree = "<group>"; };
 		565BCF3F1655A03300F33517 /* BatteryWatcherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BatteryWatcherTests.m; sourceTree = "<group>"; };
+		565BCF491655A05100F33517 /* PowerObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerObserver.h; sourceTree = "<group>"; };
+		565BCF4A1655A05100F33517 /* PowerObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerObserver.m; sourceTree = "<group>"; };
+		565BCF4D1655A07800F33517 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		565BCF511655A0D600F33517 /* JavaVM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaVM.framework; path = System/Library/Frameworks/JavaVM.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +56,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				565BCF4E1655A07800F33517 /* IOKit.framework in Frameworks */,
 				565BCF211655A03200F33517 /* Cocoa.framework in Frameworks */,
+				565BCF531655A0E200F33517 /* JavaVM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +97,8 @@
 		565BCF1F1655A03200F33517 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				565BCF511655A0D600F33517 /* JavaVM.framework */,
+				565BCF4D1655A07800F33517 /* IOKit.framework */,
 				565BCF201655A03200F33517 /* Cocoa.framework */,
 				565BCF321655A03300F33517 /* SenTestingKit.framework */,
 				565BCF221655A03200F33517 /* Other Frameworks */,
@@ -107,6 +119,8 @@
 		565BCF261655A03200F33517 /* BatteryWatcher */ = {
 			isa = PBXGroup;
 			children = (
+				565BCF491655A05100F33517 /* PowerObserver.h */,
+				565BCF4A1655A05100F33517 /* PowerObserver.m */,
 				565BCF291655A03200F33517 /* BatteryWatcher.h */,
 				565BCF2A1655A03200F33517 /* BatteryWatcher.m */,
 				565BCF271655A03200F33517 /* Supporting Files */,
@@ -148,6 +162,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				565BCF4B1655A05100F33517 /* PowerObserver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				565BCF2B1655A03200F33517 /* BatteryWatcher.m in Sources */,
+				565BCF4C1655A05100F33517 /* PowerObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
