@@ -10,4 +10,6 @@
 
 @interface BatteryWatcherTests : SenTestCase
 
+- (void) testCurrentState;
+
 @end

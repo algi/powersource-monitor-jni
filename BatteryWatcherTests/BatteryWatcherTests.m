@@ -7,26 +7,41 @@
 //
 
 #import "BatteryWatcherTests.h"
+#import "BatteryWatcher.h"
 
 @implementation BatteryWatcherTests
 
 - (void)setUp
 {
     [super setUp];
-    
     // Set-up code here.
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
-    
     [super tearDown];
 }
 
-- (void)testExample
+- (void) testCurrentState
 {
-    STFail(@"Unit tests are not implemented yet in BatteryWatcherTests");
+	NSLog(@"testCurrentState - start");
+	
+	NSString *curentState = [BatteryWatcher currentState];
+	STAssertEqualObjects(curentState, kPOWER_WALL, @"Current state should be on battery.");
+	
+	NSLog(@"testCurrentState - done");
+}
+
+- (void) testAddObserver
+{
+	NSLog(@"testAddObserver - start");
+	
+	id watcher = [BatteryWatcher sharedInstance];
+	[watcher startMonitor];
+	
+	[watcher stopMonitor];
+	NSLog(@"testAddObserver - stop");
 }
 
 @end
