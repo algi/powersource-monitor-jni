@@ -15,7 +15,7 @@ JNIEXPORT jboolean JNICALL Java_cz_boucek_intellij_plugin_battery_PowerSourceObs
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	BatteryWatcher *watcher = [BatteryWatcher sharedInstance];
-	[watcher registerJNI:env andObject:obj];
+	[watcher registerJNI:env withObject:obj];
 	
 	[pool release];
 	return result;
@@ -26,8 +26,7 @@ JNIEXPORT jboolean JNICALL Java_cz_boucek_intellij_plugin_battery_PowerSourceObs
 	jboolean result = YES;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	BatteryWatcher *watcher = [BatteryWatcher sharedInstance];
-	[watcher startMonitor];
+	[[BatteryWatcher sharedInstance] startMonitor];
 	
 	[pool release];
 	return result;
@@ -38,8 +37,7 @@ JNIEXPORT jboolean JNICALL Java_cz_boucek_intellij_plugin_battery_PowerSourceObs
 	jboolean result = YES;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	BatteryWatcher *watcher = [BatteryWatcher sharedInstance];
-	[watcher stopMonitor];
+	[[BatteryWatcher sharedInstance] stopMonitor];
 	
 	[pool release];
 	return result;

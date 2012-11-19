@@ -38,29 +38,24 @@ static BatteryWatcher* _instance;
 }
 
 - (void) registerJNI: (JNIEnv*) env
-		   andObject: (jobject) obj
+		  withObject: (jobject) obj
 {
 	[self findJavaMethodWithEnv: env andObject: obj];
 }
 
 - (void) startMonitor
-{
+{	
 	loopSource = IOPSNotificationCreateRunLoopSource (update, self);
-	
 	if (loopSource) {
 		CFRunLoopAddSource (CFRunLoopGetCurrent(), loopSource, kCFRunLoopDefaultMode);
 	}
 	
-	// run infinite loop
-//	CFRunLoopRun();
+	CFRunLoopRun();
 }
 
 - (void) stopMonitor
 {
-	CFRunLoopRef rl = CFRunLoopGetCurrent();
-	
-	CFRunLoopRemoveSource(rl, loopSource, kCFRunLoopCommonModes);
-//	CFRunLoopStop(rl);
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), loopSource, kCFRunLoopCommonModes);
 }
 
 + (NSString*) currentState
@@ -71,7 +66,6 @@ static BatteryWatcher* _instance;
 	CFArrayRef list = IOPSCopyPowerSourcesList (blob);
 	
 	CFIndex count = CFArrayGetCount (list);
-	
 	if (count == 0) {
 		result = kPOWER_WALL;
 	}
@@ -141,9 +135,11 @@ static BatteryWatcher* _instance;
 static void update (void * context)
 {	
 	if (method == NULL) {
-		NSLog(@"Java monitor service not inicialized.");
+		NSLog(@"Java monitor service is not inicialized.");
 		return;
 	}
+	
+	NSLog(@"- update -");
 	
 	JNIEnv *env;
 	bool shouldDetach = false;

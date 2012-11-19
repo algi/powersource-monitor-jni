@@ -30,7 +30,7 @@
  * Register IOKit listener with given Java environment.
  */
 - (void) registerJNI: (JNIEnv*) env
-		   andObject: (jobject) obj;
+		  withObject: (jobject) obj;
 
 - (void) startMonitor;
 - (void) stopMonitor;
