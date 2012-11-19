@@ -23,25 +23,29 @@
     [super tearDown];
 }
 
-- (void) testCurrentState
-{
-	NSLog(@"testCurrentState - start");
-	
-	NSString *curentState = [BatteryWatcher currentState];
-	STAssertEqualObjects(curentState, kPOWER_WALL, @"Current state should be on battery.");
-	
-	NSLog(@"testCurrentState - done");
-}
-
-/* This test will never end.
- 
-- (void) testAddObserver
+- (void) testStartStopMonitor
 {
 	NSLog(@"testAddObserver - start");
 	
 	id watcher = [BatteryWatcher sharedInstance];
-	[watcher startMonitor];
+	
+	dispatch_queue_t myQueue = dispatch_queue_create("com.mycompany.myqueue", 0);
+	dispatch_async(myQueue, ^{
+		NSLog(@"... starting monitor.");
+		[watcher startMonitor];
+	});
+	
+	NSLog(@"... scheduling stopMonitor.");
+	[NSTimer scheduledTimerWithTimeInterval: 2 target: self selector:@selector(stopMonitor) userInfo:nil repeats:NO];
+	
+	CFRunLoopRun();
+	NSLog(@"testAddObserver - done");
 }
-*/
+
+- (void) stopMonitor
+{
+	NSLog(@"... stop monitor.");
+	[[BatteryWatcher sharedInstance] stopMonitor];
+}
 
 @end

@@ -44,7 +44,12 @@ static BatteryWatcher* _instance;
 }
 
 - (void) startMonitor
-{	
+{
+	if (loopSource) {
+		NSLog(@"Monitor is already running.");
+		return;
+	}
+	
 	loopSource = IOPSNotificationCreateRunLoopSource (update, self);
 	if (loopSource) {
 		CFRunLoopAddSource (CFRunLoopGetCurrent(), loopSource, kCFRunLoopDefaultMode);
@@ -55,7 +60,15 @@ static BatteryWatcher* _instance;
 
 - (void) stopMonitor
 {
+	if (!loopSource) {
+		NSLog(@"Monitor is already stopped.");
+		return;
+	}
+	
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), loopSource, kCFRunLoopCommonModes);
+	CFRunLoopStop(CFRunLoopGetCurrent());
+	
+	loopSource = nil;
 }
 
 + (NSString*) currentState
