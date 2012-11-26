@@ -24,7 +24,7 @@
 /*
  * Returns shared instance of power source observer.
  */
-+ (id) sharedInstance;
++ (id) sharedWatcher;
 
 /*
  * Register IOKit listener with given Java environment.

@@ -11,30 +11,34 @@
 #import <IOKit/ps/IOPSKeys.h>
 #import <IOKit/ps/IOPowerSources.h>
 
+// private extension with C function definitions
+@interface BatteryWatcher ()
+
+jint GetJNIEnv(JNIEnv **env, bool *mustDetach);
+static void update (void * context);
+static bool stringsAreEqual (CFStringRef a, CFStringRef b);
+
+@end
+
 @implementation BatteryWatcher {
 	
 	CFRunLoopSourceRef loopSource;
 }
 
-#pragma mark Private functions
-jint GetJNIEnv(JNIEnv **env, bool *mustDetach);
-static void update (void * context);
-static bool stringsAreEqual (CFStringRef a, CFStringRef b);
-
 static JavaVM *jvm;
 static jmethodID method;
 static jclass cls;
 
-static BatteryWatcher* _instance;
-
 #pragma mark Public API
-+ (id) sharedInstance
++ (id) sharedWatcher
 {
-	if (! _instance) {
-		_instance = [[BatteryWatcher alloc] init];
+	static BatteryWatcher* sharedWatcher;
+	
+	if (sharedWatcher == nil) {
+		sharedWatcher = [BatteryWatcher new];
 	}
 	
-	return _instance;
+	return sharedWatcher;
 }
 
 - (void) registerJNI: (JNIEnv*) env
@@ -50,7 +54,7 @@ static BatteryWatcher* _instance;
 		return;
 	}
 	
-	loopSource = IOPSNotificationCreateRunLoopSource (update, self);
+	loopSource = IOPSNotificationCreateRunLoopSource (update, (__bridge void *)(self));
 	if (loopSource) {
 		CFRunLoopAddSource (CFRunLoopGetCurrent(), loopSource, kCFRunLoopDefaultMode);
 	}
@@ -162,14 +166,13 @@ static void update (void * context)
 		return;
 	}
 	
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	(*env)->CallStaticVoidMethod(env, cls, method);
-	
-	if (shouldDetach) {
-		(*jvm)->DetachCurrentThread(jvm);
+	@autoreleasepool {
+		(*env)->CallStaticVoidMethod(env, cls, method);
+		
+		if (shouldDetach) {
+			(*jvm)->DetachCurrentThread(jvm);
+		}
 	}
-	
-	[pool release];
 }
 
 #pragma mark Utility functions
@@ -196,8 +199,9 @@ jint GetJNIEnv(JNIEnv **env, bool *mustDetach)
 
 static bool stringsAreEqual (CFStringRef a, CFStringRef b)
 {
-	if (a == nil || b == nil)
+	if (a == nil || b == nil) {
 		return 0;
+	}
 	
 	return (CFStringCompare (a, b, 0) == kCFCompareEqualTo);
 }

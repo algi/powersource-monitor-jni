@@ -27,7 +27,7 @@
 {
 	NSLog(@"testAddObserver - start");
 	
-	id watcher = [BatteryWatcher sharedInstance];
+	id watcher = [BatteryWatcher sharedWatcher];
 	
 	dispatch_queue_t myQueue = dispatch_queue_create("com.mycompany.myqueue", 0);
 	dispatch_async(myQueue, ^{
@@ -45,7 +45,7 @@
 - (void) stopMonitor
 {
 	NSLog(@"... stop monitor.");
-	[[BatteryWatcher sharedInstance] stopMonitor];
+	[[BatteryWatcher sharedWatcher] stopMonitor];
 }
 
 @end

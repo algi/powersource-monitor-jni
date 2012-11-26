@@ -10,47 +10,37 @@
 #include "export.h"
 
 JNIEXPORT jboolean JNICALL Java_cz_boucek_intellij_plugin_battery_PowerSourceObserver_registerJNI (JNIEnv *env, jobject obj)
-{	
-	jboolean result = YES;
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	BatteryWatcher *watcher = [BatteryWatcher sharedInstance];
-	[watcher registerJNI:env withObject:obj];
-	
-	[pool release];
-	return result;
+{
+	@autoreleasepool {
+		BatteryWatcher *watcher = [BatteryWatcher sharedWatcher];
+		[watcher registerJNI:env withObject:obj];
+		
+		return YES;
+	}
 }
 
 JNIEXPORT jboolean JNICALL Java_cz_boucek_intellij_plugin_battery_PowerSourceObserver_startMonitor (JNIEnv *env, jobject obj)
 {
-	jboolean result = YES;
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	[[BatteryWatcher sharedInstance] startMonitor];
-	
-	[pool release];
-	return result;
+	@autoreleasepool {
+		[[BatteryWatcher sharedWatcher] startMonitor];
+		return YES;
+	}
 }
 
 JNIEXPORT jboolean JNICALL Java_cz_boucek_intellij_plugin_battery_PowerSourceObserver_stopMonitor (JNIEnv *env, jobject obj)
 {
-	jboolean result = YES;
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	[[BatteryWatcher sharedInstance] stopMonitor];
-	
-	[pool release];
-	return result;
+	@autoreleasepool {
+		[[BatteryWatcher sharedWatcher] stopMonitor];
+		return YES;
+	}
 }
 
 JNIEXPORT jstring JNICALL Java_cz_boucek_intellij_plugin_battery_PowerSourceObserver_getPowerSourceState (JNIEnv *env, jobject obj)
 {
-	jstring result = NULL;
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	NSString *state = [BatteryWatcher currentState];
-	result = (*env)->NewStringUTF(env, [state UTF8String]);
-	
-	[pool release];
-	return result;
+	@autoreleasepool {
+		NSString *state = [BatteryWatcher currentState];
+		
+		jstring result = (*env)->NewStringUTF(env, [state UTF8String]);
+		return result;
+	}
 }
