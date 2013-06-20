@@ -11,19 +11,7 @@
 
 @implementation BatteryWatcherTests
 
-- (void)setUp
-{
-    [super setUp];
-    // Set-up code here.
-}
-
-- (void)tearDown
-{
-    // Tear-down code here.
-    [super tearDown];
-}
-
-- (void) testStartStopMonitor
+- (void)testStartStopMonitor
 {
 	NSLog(@"testAddObserver - start");
 	
@@ -42,7 +30,7 @@
 	NSLog(@"testAddObserver - done");
 }
 
-- (void) stopMonitor
+- (void)stopMonitor
 {
 	NSLog(@"... stop monitor.");
 	[[BatteryWatcher sharedWatcher] stopMonitor];

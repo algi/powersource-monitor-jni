@@ -30,7 +30,7 @@ static jmethodID method;
 static jclass cls;
 
 #pragma mark Public API
-+ (instancetype) sharedWatcher
++ (instancetype)sharedWatcher
 {
 	static BatteryWatcher* sharedWatcher;
 	static dispatch_once_t onceToken;
@@ -42,13 +42,13 @@ static jclass cls;
 	return sharedWatcher;
 }
 
-- (void) registerJNI: (JNIEnv*) env
-		  withObject: (jobject) obj
+- (void)registerJNI:(JNIEnv *)env
+		 withObject:(jobject)obj
 {
 	[self findJavaMethodWithEnv: env andObject: obj];
 }
 
-- (void) startMonitor
+- (void)startMonitor
 {
 	if (loopSource) {
 		NSLog(@"Monitor is already running.");
@@ -63,7 +63,7 @@ static jclass cls;
 	CFRunLoopRun();
 }
 
-- (void) stopMonitor
+- (void)stopMonitor
 {
 	if (!loopSource) {
 		NSLog(@"Monitor is already stopped.");
@@ -76,14 +76,14 @@ static jclass cls;
 	loopSource = nil;
 }
 
-+ (NSString*) currentState
++ (NSString *)currentState
 {
 	NSString *result = nil;
 	
-	CFTypeRef blob = IOPSCopyPowerSourcesInfo ();
-	CFArrayRef list = IOPSCopyPowerSourcesList (blob);
+	CFTypeRef blob = IOPSCopyPowerSourcesInfo();
+	CFArrayRef list = IOPSCopyPowerSourcesList(blob);
 	
-	CFIndex count = CFArrayGetCount (list);
+	CFIndex count = CFArrayGetCount(list);
 	if (count == 0) {
 		result = kPOWER_WALL;
 	}
@@ -94,17 +94,17 @@ static jclass cls;
 		CFTypeRef source;
 		CFDictionaryRef description;
 		
-		source = CFArrayGetValueAtIndex (list, i);
-		description = IOPSGetPowerSourceDescription (blob, source);
+		source = CFArrayGetValueAtIndex(list, i);
+		description = IOPSGetPowerSourceDescription(blob, source);
 		
-		if (stringsAreEqual (CFDictionaryGetValue (description, CFSTR (kIOPSTransportTypeKey)), CFSTR (kIOPSInternalType)))
+		if (stringsAreEqual(CFDictionaryGetValue(description, CFSTR(kIOPSTransportTypeKey)), CFSTR(kIOPSInternalType)))
 		{
-			CFStringRef currentState = CFDictionaryGetValue (description, CFSTR (kIOPSPowerSourceStateKey));
+			CFStringRef currentState = CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey));
 			
-			if (stringsAreEqual (currentState, CFSTR (kIOPSACPowerValue))) {
+			if (stringsAreEqual(currentState, CFSTR(kIOPSACPowerValue))) {
 				result = kPOWER_WALL;
 			}
-			else if (stringsAreEqual (currentState, CFSTR (kIOPSBatteryPowerValue))) {
+			else if (stringsAreEqual(currentState, CFSTR(kIOPSBatteryPowerValue))) {
 				result = kPOWER_BATTERY;
 			}
 			else {
@@ -120,8 +120,8 @@ static jclass cls;
 }
 
 #pragma mark Callback methods
-- (void) findJavaMethodWithEnv: (JNIEnv*) env
-					 andObject: (jobject) obj
+- (void)findJavaMethodWithEnv:(JNIEnv *)env
+					andObject:(jobject)obj
 {
 	// cz.boucek.intellij.plugin.battery.BatteryMonitor -> cz/boucek/intellij/plugin/battery/PowerSourceObserver
 	jclass local_tester_cls = (*env)->FindClass(env, "cz/boucek/intellij/plugin/battery/PowerSourceObserver");
@@ -150,15 +150,13 @@ static jclass cls;
 }
 
 #pragma mark Update function
-static void update (void * context)
+static void update(void * context)
 {	
 	if (method == NULL) {
 		NSLog(@"Java monitor service is not inicialized.");
 		return;
 	}
-	
-	NSLog(@"- update -");
-	
+		
 	JNIEnv *env;
 	bool shouldDetach = false;
 	
@@ -198,7 +196,7 @@ jint GetJNIEnv(JNIEnv **env, bool *mustDetach)
 	return getEnvErr;
 }
 
-static bool stringsAreEqual (CFStringRef a, CFStringRef b)
+static bool stringsAreEqual(CFStringRef a, CFStringRef b)
 {
 	if (a == nil || b == nil) {
 		return 0;

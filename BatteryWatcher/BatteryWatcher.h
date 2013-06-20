@@ -24,20 +24,20 @@
 /*
  * Returns shared instance of power source observer.
  */
-+ (instancetype) sharedWatcher;
++ (instancetype)sharedWatcher;
 
 /*
  * Register IOKit listener with given Java environment.
  */
-- (void) registerJNI: (JNIEnv*) env
-		  withObject: (jobject) obj;
+- (void)registerJNI: (JNIEnv *)env
+		 withObject: (jobject)obj;
 
-- (void) startMonitor;
-- (void) stopMonitor;
+- (void)startMonitor;
+- (void)stopMonitor;
 
 /*
  * Returns current state of power source.
  */
-+ (NSString*) currentState;
++ (NSString *)currentState;
 
 @end
