@@ -30,7 +30,7 @@ static jmethodID method;
 static jclass cls;
 
 #pragma mark Public API
-+ (id) sharedWatcher
++ (instancetype) sharedWatcher
 {
 	static BatteryWatcher* sharedWatcher;
 	
@@ -178,7 +178,7 @@ static void update (void * context)
 #pragma mark Utility functions
 jint GetJNIEnv(JNIEnv **env, bool *mustDetach)
 {
-	jint getEnvErr = JNI_OK;
+	jint getEnvErr;
 	*mustDetach = false;
 	
 	if (jvm) {
