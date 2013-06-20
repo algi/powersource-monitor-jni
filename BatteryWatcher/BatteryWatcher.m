@@ -33,11 +33,12 @@ static jclass cls;
 + (instancetype) sharedWatcher
 {
 	static BatteryWatcher* sharedWatcher;
+	static dispatch_once_t onceToken;
 	
-	if (sharedWatcher == nil) {
-		sharedWatcher = [BatteryWatcher new];
-	}
-	
+	dispatch_once(&onceToken, ^{
+		sharedWatcher = [[BatteryWatcher alloc]init];
+	});
+		
 	return sharedWatcher;
 }
 
